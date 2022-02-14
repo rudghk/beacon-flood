@@ -49,7 +49,11 @@ void sendBeaconPkt(pcap_t* pcap, const char* ssid){
     size += sizeof(radiotapData);
 
     Dot11Hdr dot11Hdr;
-    Mac ap = Mac("00:00:00:00:00:00");
+    Mac ap;
+    uint8_t r[6];
+    for(int i=0;i<6;i++)
+        r[i] = rand()&0xFF;
+    memcpy(&ap,&r,sizeof(Mac));
     Mac station = Mac("00:00:00:00:00:00");
     dot11Hdr.setDefaultBeacon(ap, station);
     memcpy(beaconpkt+size, &dot11Hdr, sizeof(Dot11Hdr));
